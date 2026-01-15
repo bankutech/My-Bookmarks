@@ -16,18 +16,12 @@
       --primary-bg: #0f172a;
       --card-bg: rgba(255, 255, 255, 0.05);
       --card-border: rgba(255, 255, 255, 0.1);
-      --card-hover: rgba(255, 255, 255, 0.15);
       --text-main: #ffffff;
       --text-muted: #94a3b8;
-      --accent-glow: rgba(56, 189, 248, 0.5);
-      --glass-blur: blur(16px);
+      --accent-color: #38bdf8;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Inter', sans-serif;
@@ -35,38 +29,31 @@
       color: var(--text-main);
       min-height: 100vh;
       overflow-x: hidden;
-      perspective: 1000px; /* Essential for 3D context */
+      perspective: 1000px;
     }
 
-    /* Animated Background Mesh */
+    /* Animated Background */
     .bg-mesh {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      top: 0; left: 0; width: 100vw; height: 100vh;
       z-index: -1;
       background: radial-gradient(circle at 50% 50%, #1e1b4b, #0f172a);
       overflow: hidden;
     }
-
     .blob {
-      position: absolute;
-      filter: blur(80px);
-      opacity: 0.6;
+      position: absolute; filter: blur(80px); opacity: 0.6;
       animation: float 20s infinite ease-in-out alternate;
     }
-
-    .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: #4c1d95; animation-delay: 0s; }
+    .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: #4c1d95; }
     .blob-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: #0c4a6e; animation-delay: -5s; }
     .blob-3 { top: 40%; left: 40%; width: 40vw; height: 40vw; background: #be123c; animation-delay: -10s; border-radius: 50%; }
-
+    
     @keyframes float {
       0% { transform: translate(0, 0) scale(1); }
       100% { transform: translate(50px, 30px) scale(1.1); }
     }
 
-    /* Layout Structure */
+    /* Layout */
     .app-container {
       display: flex;
       max-width: 1600px;
@@ -75,234 +62,109 @@
       gap: 2rem;
     }
 
-    /* Sidebar Navigation */
+    /* Sidebar */
     .sidebar {
       width: 280px;
       position: sticky;
       top: 2rem;
       height: calc(100vh - 4rem);
       background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: var(--glass-blur);
+      backdrop-filter: blur(16px);
       border: 1px solid var(--card-border);
       border-radius: 24px;
       padding: 2rem;
-      display: flex;
-      flex-direction: column;
+      display: flex; flex-direction: column;
       z-index: 100;
+      overflow-y: auto;
     }
 
     .brand {
       font-family: 'Poppins', sans-serif;
-      font-size: 1.5rem;
-      font-weight: 700;
+      font-size: 1.5rem; font-weight: 700;
       margin-bottom: 2rem;
       background: linear-gradient(to right, #fff, #94a3b8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
 
-    .nav-links {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
+    .nav-links { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
     .nav-btn {
-      text-align: left;
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      padding: 12px 16px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      text-align: left; background: transparent; border: none;
+      color: var(--text-muted); padding: 12px 16px; border-radius: 12px;
+      cursor: pointer; font-size: 0.95rem; transition: all 0.3s ease;
+      display: flex; align-items: center; gap: 12px; width: 100%;
     }
+    .nav-btn:hover, .nav-btn.active { background: rgba(255, 255, 255, 0.1); color: white; transform: translateX(5px); }
 
-    .nav-btn:hover, .nav-btn.active {
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      transform: translateX(5px);
-    }
-
-    /* Main Content Area */
-    .main-content {
-      flex: 1;
-    }
-
-    .header-box {
-      margin-bottom: 3rem;
-      position: relative;
-    }
-
-    .header-title {
-      font-family: 'Poppins', sans-serif;
-      font-size: 3rem;
-      font-weight: 700;
-      line-height: 1.1;
-      margin-bottom: 1rem;
-    }
-
-    /* Search Bar */
-    .search-wrapper {
-      position: relative;
-      max-width: 500px;
-      margin-top: 1.5rem;
-    }
-
+    /* Main Content */
+    .main-content { flex: 1; padding-bottom: 4rem; }
+    
+    .header-box { margin-bottom: 3rem; }
+    .header-title { font-family: 'Poppins', sans-serif; font-size: 3rem; font-weight: 700; margin-bottom: 1rem; }
+    
+    .search-wrapper { position: relative; max-width: 500px; margin-top: 1.5rem; }
     .search-input {
-      width: 100%;
-      background: var(--card-bg);
+      width: 100%; background: var(--card-bg);
       border: 1px solid var(--card-border);
-      padding: 16px 24px;
-      padding-left: 50px;
-      border-radius: 50px;
-      color: white;
-      font-size: 1rem;
-      outline: none;
-      backdrop-filter: blur(10px);
-      transition: all 0.3s ease;
+      padding: 16px 24px 16px 50px;
+      border-radius: 50px; color: white; font-size: 1rem; outline: none;
+      backdrop-filter: blur(10px); transition: all 0.3s ease;
     }
+    .search-input:focus { border-color: rgba(255,255,255,0.4); box-shadow: 0 0 20px rgba(56, 189, 248, 0.2); }
+    .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
 
-    .search-input:focus {
-      border-color: rgba(255,255,255,0.4);
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
-    }
-
-    /* Sections */
-    .category-section {
-      margin-bottom: 4rem;
-      scroll-margin-top: 2rem;
-    }
-
+    /* Grid & Cards */
+    .category-section { margin-bottom: 4rem; scroll-margin-top: 2rem; }
     .section-title {
-      font-family: 'Poppins', sans-serif;
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
-      padding-left: 1rem;
-      border-left: 4px solid #38bdf8;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      font-family: 'Poppins', sans-serif; font-size: 1.5rem;
+      margin-bottom: 1.5rem; padding-left: 1rem;
+      border-left: 4px solid var(--accent-color);
+      display: flex; align-items: center; gap: 10px;
     }
 
-    /* 3D Grid */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       gap: 1.5rem;
       perspective: 1000px;
     }
 
-    /* The 3D Card */
     .card {
-      position: relative;
-      height: 180px;
+      position: relative; height: 160px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 1.5rem;
+      border-radius: 20px; padding: 1.5rem;
       text-decoration: none;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: transform 0.1s ease, box-shadow 0.3s ease; /* Fast transform for mouse move */
+      display: flex; flex-direction: column; justify-content: space-between;
+      transition: transform 0.1s ease;
       transform-style: preserve-3d;
-      backdrop-filter: blur(12px);
-      overflow: hidden;
-      cursor: pointer;
+      backdrop-filter: blur(12px); overflow: hidden;
     }
 
-    /* The Glare Effect */
     .card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(
-        800px circle at var(--mouse-x) var(--mouse-y), 
-        rgba(255, 255, 255, 0.15),
-        transparent 40%
-      );
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      z-index: 2;
-      pointer-events: none;
+      content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.1), transparent 40%);
+      opacity: 0; transition: opacity 0.5s ease; z-index: 2; pointer-events: none;
     }
-
-    .card:hover::before {
-      opacity: 1;
-    }
+    .card:hover::before { opacity: 1; }
 
     .card-icon {
-      font-size: 2rem;
-      color: white;
-      width: 50px;
-      height: 50px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transform: translateZ(30px); /* Pops out in 3D */
+      font-size: 1.8rem; color: white; width: 45px; height: 45px;
+      background: rgba(255,255,255,0.1); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      transform: translateZ(25px);
     }
+    
+    .card-content { transform: translateZ(15px); }
+    .card-title { color: white; font-weight: 600; font-size: 1rem; margin-bottom: 0.25rem; }
+    .card-arrow { font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 5px; }
+    .card:hover .card-arrow { color: var(--accent-color); }
 
-    .card-content {
-      transform: translateZ(20px);
-    }
-
-    .card-title {
-      color: white;
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .card-arrow {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      transition: color 0.3s;
-    }
-
-    .card:hover .card-arrow {
-      color: #38bdf8;
-    }
-
-    /* Mobile Responsiveness */
+    /* Mobile */
     @media (max-width: 1024px) {
-      .app-container {
-        flex-direction: column;
-        padding: 1rem;
-      }
-      .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-        top: 0;
-        flex-direction: row;
-        overflow-x: auto;
-        padding: 1rem;
-      }
-      .brand { margin-bottom: 0; margin-right: 2rem; display: none;}
+      .app-container { flex-direction: column; padding: 1rem; }
+      .sidebar { width: 100%; height: auto; flex-direction: row; overflow-x: auto; padding: 1rem; top: 0; }
+      .brand { display: none; }
       .nav-btn { white-space: nowrap; }
-      .header-title { font-size: 2rem; }
     }
   </style>
 </head>
@@ -322,7 +184,7 @@
         <li><button class="nav-btn active" onclick="scrollToSection('academic')"><i class="fa-solid fa-graduation-cap"></i> Academic</button></li>
         <li><button class="nav-btn" onclick="scrollToSection('dev')"><i class="fa-solid fa-code"></i> Dev & Tools</button></li>
         <li><button class="nav-btn" onclick="scrollToSection('video')"><i class="fa-brands fa-youtube"></i> Video Learning</button></li>
-        <li><button class="nav-btn" onclick="scrollToSection('courses')"><i class="fa-solid fa-laptop-file"></i> Platforms</button></li>
+        <li><button class="nav-btn" onclick="scrollToSection('platforms')"><i class="fa-solid fa-laptop-file"></i> Platforms</button></li>
         <li><button class="nav-btn" onclick="scrollToSection('compilers')"><i class="fa-solid fa-terminal"></i> Compilers</button></li>
         <li><button class="nav-btn" onclick="scrollToSection('docs')"><i class="fa-solid fa-book"></i> Docs</button></li>
         <li><button class="nav-btn" onclick="scrollToSection('utils')"><i class="fa-solid fa-layer-group"></i> Utilities</button></li>
@@ -332,52 +194,56 @@
     <main class="main-content">
       
       <div class="header-box">
-        <h1 class="header-title">Student Dashboard</h1>
-        <p style="color: var(--text-muted); font-size: 1.1rem;">Access your curated digital ecosystem.</p>
-        
+        <h1 class="header-title">My Bookmarks</h1>
+        <p style="color: var(--text-muted);">Curated ecosystem for learning and productivity.</p>
         <div class="search-wrapper">
           <i class="fa-solid fa-search search-icon"></i>
-          <input type="text" id="searchInput" class="search-input" placeholder="Search resources (e.g., 'Java', 'Portal')..." onkeyup="filterCards()">
+          <input type="text" id="searchInput" class="search-input" placeholder="Find a resource..." onkeyup="filterCards()">
         </div>
       </div>
 
       <section id="academic" class="category-section">
         <div class="section-title"><i class="fa-solid fa-graduation-cap"></i> Academic Resources</div>
         <div class="grid">
-          <a href="https://mail.google.com/" target="_blank" class="card">
+          <a href="https://mail.google.com/mail/u/0/?ogbl#inbox" target="_blank" class="card">
             <div class="card-icon"><i class="fa-solid fa-envelope"></i></div>
-            <div class="card-content">
-              <div class="card-title">Gmail</div>
-              <div class="card-arrow">Open Mail <i class="fa-solid fa-arrow-right"></i></div>
-            </div>
+            <div class="card-content"><div class="card-title">Gmail</div><div class="card-arrow">Open Inbox <i class="fa-solid fa-arrow-right"></i></div></div>
           </a>
-          <a href="https://sp.srmist.edu.in/" target="_blank" class="card">
-            <div class="card-icon"><i class="fa-solid fa-id-card"></i></div>
-            <div class="card-content">
-              <div class="card-title">Student Portal</div>
-              <div class="card-arrow">Access Portal <i class="fa-solid fa-arrow-right"></i></div>
-            </div>
+          <a href="https://sp.srmist.edu.in/srmiststudentportal/students/loginManager/youLogin.jsp" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-university"></i></div>
+            <div class="card-content"><div class="card-title">SRM Student Portal</div><div class="card-arrow">Login <i class="fa-solid fa-arrow-right"></i></div></div>
           </a>
-          <a href="https://academia.srmist.edu.in/" target="_blank" class="card">
+          <a href="https://academia.srmist.edu.in/#Page:My_Attendance" target="_blank" class="card">
             <div class="card-icon"><i class="fa-solid fa-clipboard-user"></i></div>
-            <div class="card-content">
-              <div class="card-title">Academia</div>
-              <div class="card-arrow">Check Attendance <i class="fa-solid fa-arrow-right"></i></div>
-            </div>
+            <div class="card-content"><div class="card-title">Academia</div><div class="card-arrow">Attendance <i class="fa-solid fa-arrow-right"></i></div></div>
           </a>
           <a href="https://campusweb.vercel.app/student" target="_blank" class="card">
-            <div class="card-icon"><i class="fa-solid fa-network-wired"></i></div>
-            <div class="card-content">
-              <div class="card-title">Campus Web</div>
-              <div class="card-arrow">Go <i class="fa-solid fa-arrow-right"></i></div>
-            </div>
+            <div class="card-icon"><i class="fa-solid fa-globe"></i></div>
+            <div class="card-content"><div class="card-title">Campus Web</div><div class="card-arrow">Visit <i class="fa-solid fa-arrow-right"></i></div></div>
           </a>
-          <a href="https://dld.srmist.edu.in/ktretelab2024" target="_blank" class="card">
-            <div class="card-icon"><i class="fa-solid fa-microchip"></i></div>
-            <div class="card-content">
-              <div class="card-title">ELAB</div>
-              <div class="card-arrow">Code <i class="fa-solid fa-arrow-right"></i></div>
-            </div>
+          <a href="https://academi.cc/academia" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+            <div class="card-content"><div class="card-title">ClassPro</div><div class="card-arrow">Manage <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://studique.in/" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-book-open-reader"></i></div>
+            <div class="card-content"><div class="card-title">Studique</div><div class="card-arrow">Learn <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://dld.srmist.edu.in/ktretelab2024/#/ktretelab2024/student/home" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-flask"></i></div>
+            <div class="card-content"><div class="card-title">ELAB</div><div class="card-arrow">Practice <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://dld.srmist.edu.in/ktretecurricula2024/#/" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-scroll"></i></div>
+            <div class="card-content"><div class="card-title">Curricula</div><div class="card-arrow">View <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://www.bohrium.com/" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-atom"></i></div>
+            <div class="card-content"><div class="card-title">Research</div><div class="card-arrow">Bohrium <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://www.notion.so/248417a13af980179240f5fe3098ac9e?v=248417a13af980599bb8000c2fe6cb24&source=copy_link" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-calendar-check"></i></div>
+            <div class="card-content"><div class="card-title">Study Planner</div><div class="card-arrow">Notion <i class="fa-solid fa-arrow-right"></i></div></div>
           </a>
         </div>
       </section>
@@ -387,31 +253,31 @@
         <div class="grid">
           <a href="https://github.com" target="_blank" class="card">
             <div class="card-icon"><i class="fa-brands fa-github"></i></div>
-            <div class="card-content">
-              <div class="card-title">GitHub</div>
-              <div class="card-arrow">Repositories <i class="fa-solid fa-arrow-right"></i></div>
-            </div>
+            <div class="card-content"><div class="card-title">GitHub</div><div class="card-arrow">Repo <i class="fa-solid fa-arrow-right"></i></div></div>
           </a>
           <a href="https://stackoverflow.com" target="_blank" class="card">
             <div class="card-icon"><i class="fa-brands fa-stack-overflow"></i></div>
-            <div class="card-content">
-              <div class="card-title">Stack Overflow</div>
-              <div class="card-arrow">Solutions <i class="fa-solid fa-arrow-right"></i></div>
-            </div>
+            <div class="card-content"><div class="card-title">Stack Overflow</div><div class="card-arrow">Solve <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://lovable.dev/" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-heart"></i></div>
+            <div class="card-content"><div class="card-title">Lovable Dev</div><div class="card-arrow">Tools <i class="fa-solid fa-arrow-right"></i></div></div>
           </a>
           <a href="https://chatgpt.com/" target="_blank" class="card">
             <div class="card-icon"><i class="fa-solid fa-robot"></i></div>
-            <div class="card-content">
-              <div class="card-title">ChatGPT</div>
-              <div class="card-arrow">AI Assist <i class="fa-solid fa-arrow-right"></i></div>
-            </div>
+            <div class="card-content"><div class="card-title">ChatGPT</div><div class="card-arrow">AI <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://base44.com/" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-cube"></i></div>
+            <div class="card-content"><div class="card-title">Base44</div><div class="card-arrow">Visit <i class="fa-solid fa-arrow-right"></i></div></div>
           </a>
           <a href="https://chat.deepseek.com/" target="_blank" class="card">
             <div class="card-icon"><i class="fa-solid fa-brain"></i></div>
-            <div class="card-content">
-              <div class="card-title">DeepSeek</div>
-              <div class="card-arrow">Research <i class="fa-solid fa-arrow-right"></i></div>
-            </div>
+            <div class="card-content"><div class="card-title">DeepSeek</div><div class="card-arrow">AI Research <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://www.grammarly.com/ai-humanizer" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-pen-nib"></i></div>
+            <div class="card-content"><div class="card-title">Grammarly AI</div><div class="card-arrow">Humanizer <i class="fa-solid fa-arrow-right"></i></div></div>
           </a>
         </div>
       </section>
@@ -421,44 +287,171 @@
         <div class="grid">
           <a href="https://www.youtube.com" target="_blank" class="card">
             <div class="card-icon"><i class="fa-brands fa-youtube"></i></div>
-            <div class="card-content">
-              <div class="card-title">YouTube</div>
-              <div class="card-arrow">Watch <i class="fa-solid fa-arrow-right"></i></div>
-            </div>
+            <div class="card-content"><div class="card-title">YouTube</div><div class="card-arrow">Watch <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://youtu.be/B31LgI4Y4DQ?feature=shared" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-play"></i></div>
+            <div class="card-content"><div class="card-title">DSA C/C++</div><div class="card-arrow">Tutorial <i class="fa-solid fa-arrow-right"></i></div></div>
           </a>
           <a href="https://www.youtube.com/@TheNetNinja" target="_blank" class="card">
             <div class="card-icon"><i class="fa-solid fa-user-ninja"></i></div>
-            <div class="card-content">
-              <div class="card-title">Net Ninja</div>
-              <div class="card-arrow">Web Dev <i class="fa-solid fa-arrow-right"></i></div>
-            </div>
+            <div class="card-content"><div class="card-title">The Net Ninja</div><div class="card-arrow">Web Dev <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://www.youtube.com/@CSDojo" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-khanda"></i></div>
+            <div class="card-content"><div class="card-title">CS Dojo</div><div class="card-arrow">Learn <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://youtube.com/@simplilearnofficial" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-s"></i></div>
+            <div class="card-content"><div class="card-title">Simplilearn</div><div class="card-arrow">Courses <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://youtube.com/@apnacollegeofficial" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div class="card-content"><div class="card-title">Apna College</div><div class="card-arrow">Learn <i class="fa-solid fa-arrow-right"></i></div></div>
           </a>
           <a href="https://youtube.com/@nesoacademy" target="_blank" class="card">
-            <div class="card-icon"><i class="fa-solid fa-chalkboard"></i></div>
-            <div class="card-content">
-              <div class="card-title">Neso Academy</div>
-              <div class="card-arrow">Engineering <i class="fa-solid fa-arrow-right"></i></div>
-            </div>
+            <div class="card-icon"><i class="fa-solid fa-lightbulb"></i></div>
+            <div class="card-content"><div class="card-title">Neso Academy</div><div class="card-arrow">Engineering <i class="fa-solid fa-arrow-right"></i></div></div>
           </a>
         </div>
       </section>
-      
+
+      <section id="platforms" class="category-section">
+        <div class="section-title"><i class="fa-solid fa-laptop-file"></i> Learning Platforms</div>
+        <div class="grid">
+          <a href="https://www.codewithharry.com/courses/the-ultimate-job-ready-data-science-course" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-code"></i></div>
+            <div class="card-content"><div class="card-title">CodeWithHarry</div><div class="card-arrow">Data Science <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://alison.com/topic/learn/93257/reasoning-under-uncertainty" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-a"></i></div>
+            <div class="card-content"><div class="card-title">Alison Course</div><div class="card-arrow">Study <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://swayam.gov.in/mycourses" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-book-journal-whills"></i></div>
+            <div class="card-content"><div class="card-title">Swayam</div><div class="card-arrow">Gov Courses <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://app.mycaptain.in/lms/my-courses" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-ship"></i></div>
+            <div class="card-content"><div class="card-title">MyCaptain</div><div class="card-arrow">LMS <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://skills.yourlearning.ibm.com/" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-brands fa-ibm"></i></div>
+            <div class="card-content"><div class="card-title">IBM SkillsBuild</div><div class="card-arrow">Certify <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+        </div>
+      </section>
+
       <section id="compilers" class="category-section">
         <div class="section-title"><i class="fa-solid fa-terminal"></i> Online Compilers</div>
         <div class="grid">
           <a href="https://leetcode.com" target="_blank" class="card">
             <div class="card-icon"><i class="fa-solid fa-code-branch"></i></div>
-            <div class="card-content">
-              <div class="card-title">LeetCode</div>
-              <div class="card-arrow">Practice <i class="fa-solid fa-arrow-right"></i></div>
-            </div>
+            <div class="card-content"><div class="card-title">LeetCode</div><div class="card-arrow">Solve <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://www.programiz.com/c-programming/online-compiler/" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-c"></i></div>
+            <div class="card-content"><div class="card-title">C Compiler</div><div class="card-arrow">Programiz <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://www.programiz.com/java-programming/online-compiler/" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-brands fa-java"></i></div>
+            <div class="card-content"><div class="card-title">Java Compiler</div><div class="card-arrow">Programiz <i class="fa-solid fa-arrow-right"></i></div></div>
           </a>
           <a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" class="card">
             <div class="card-icon"><i class="fa-brands fa-python"></i></div>
-            <div class="card-content">
-              <div class="card-title">Python Compiler</div>
-              <div class="card-arrow">Run Code <i class="fa-solid fa-arrow-right"></i></div>
-            </div>
+            <div class="card-content"><div class="card-title">Python Compiler</div><div class="card-arrow">Programiz <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+        </div>
+      </section>
+
+      <section id="docs" class="category-section">
+        <div class="section-title"><i class="fa-solid fa-book"></i> Docs & References</div>
+        <div class="grid">
+          <a href="https://www.w3schools.com/html/default.asp" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-brands fa-html5"></i></div>
+            <div class="card-content"><div class="card-title">HTML Tutorial</div><div class="card-arrow">w3schools <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://www.w3schools.com/css/default.asp" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-brands fa-css3-alt"></i></div>
+            <div class="card-content"><div class="card-title">CSS Tutorial</div><div class="card-arrow">w3schools <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://www.w3schools.com/js/default.asp" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-brands fa-js"></i></div>
+            <div class="card-content"><div class="card-title">JS Tutorial</div><div class="card-arrow">w3schools <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://www.w3schools.com/python/default.asp" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-brands fa-python"></i></div>
+            <div class="card-content"><div class="card-title">Python Tutorial</div><div class="card-arrow">w3schools <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://www.w3schools.com/java/default.asp" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-brands fa-java"></i></div>
+            <div class="card-content"><div class="card-title">Java Tutorial</div><div class="card-arrow">w3schools <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://www.w3schools.com/c/index.php" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-c"></i></div>
+            <div class="card-content"><div class="card-title">C Tutorial</div><div class="card-arrow">w3schools <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://www.w3schools.com/cpp/default.asp" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-code"></i></div>
+            <div class="card-content"><div class="card-title">C++ Tutorial</div><div class="card-arrow">w3schools <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://www.w3schools.com/bootstrap/bootstrap_ver.asp" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-brands fa-bootstrap"></i></div>
+            <div class="card-content"><div class="card-title">Bootstrap</div><div class="card-arrow">w3schools <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://www.w3schools.com/react/default.asp" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-brands fa-react"></i></div>
+            <div class="card-content"><div class="card-title">React</div><div class="card-arrow">w3schools <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://www.w3schools.com/mysql/default.asp" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-database"></i></div>
+            <div class="card-content"><div class="card-title">MySQL</div><div class="card-arrow">w3schools <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://www.w3schools.com/jquery/default.asp" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-dollar-sign"></i></div>
+            <div class="card-content"><div class="card-title">jQuery</div><div class="card-arrow">w3schools <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+        </div>
+      </section>
+
+      <section id="utils" class="category-section">
+        <div class="section-title"><i class="fa-solid fa-layer-group"></i> Utilities & Others</div>
+        <div class="grid">
+          <a href="https://www.google.com" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-brands fa-google"></i></div>
+            <div class="card-content"><div class="card-title">Google</div><div class="card-arrow">Search <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://myplayer-youtube-play.lovable.app/" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-music"></i></div>
+            <div class="card-content"><div class="card-title">My Player</div><div class="card-arrow">Music <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://bankutech.github.io/timer/" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-stopwatch"></i></div>
+            <div class="card-content"><div class="card-title">Timer</div><div class="card-arrow">Focus <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://thehelpers.vercel.app/" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-handshake-angle"></i></div>
+            <div class="card-content"><div class="card-title">The Helpers</div><div class="card-arrow">Support <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://www.linkedin.com/feed/" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-brands fa-linkedin"></i></div>
+            <div class="card-content"><div class="card-title">LinkedIn</div><div class="card-arrow">Connect <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://web.whatsapp.com/" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-brands fa-whatsapp"></i></div>
+            <div class="card-content"><div class="card-title">WhatsApp Web</div><div class="card-arrow">Chat <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://www.filmyzilla20.com/" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-film"></i></div>
+            <div class="card-content"><div class="card-title">Filmyzilla</div><div class="card-arrow">Movies <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://www.amazon.in/" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-brands fa-amazon"></i></div>
+            <div class="card-content"><div class="card-title">Amazon</div><div class="card-arrow">Shop <i class="fa-solid fa-arrow-right"></i></div></div>
+          </a>
+          <a href="https://www.zeptonow.com/" target="_blank" class="card">
+            <div class="card-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+            <div class="card-content"><div class="card-title">Zepto</div><div class="card-arrow">Grocery <i class="fa-solid fa-arrow-right"></i></div></div>
           </a>
         </div>
       </section>
@@ -467,70 +460,46 @@
   </div>
 
   <script>
-    // ----------------------------------------------------
-    // CUSTOM 3D TILT LOGIC (No external libraries used)
-    // ----------------------------------------------------
-    
-    // Select all cards
+    // 3D Card Effect
     const cards = document.querySelectorAll('.card');
-
     cards.forEach(card => {
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left; // x position within the element.
-        const y = e.clientY - rect.top;  // y position within the element.
-        
-        // Calculate center of card
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
-        
-        // Calculate rotation (limit max rotation to 15deg)
         const rotateX = ((y - centerY) / centerY) * -10;
         const rotateY = ((x - centerX) / centerX) * 10;
         
-        // Apply 3D rotation
         card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-        
-        // Update CSS variables for the "Glare" effect
         card.style.setProperty('--mouse-x', `${x}px`);
         card.style.setProperty('--mouse-y', `${y}px`);
       });
-
-      // Reset on mouse leave
       card.addEventListener('mouseleave', () => {
         card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
       });
     });
 
-    // ----------------------------------------------------
-    // SEARCH & NAVIGATION LOGIC
-    // ----------------------------------------------------
-
+    // Navigation
     function scrollToSection(id) {
-      const element = document.getElementById(id);
-      if(element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-        
-        // Update active state in sidebar
+      const el = document.getElementById(id);
+      if(el) {
+        el.scrollIntoView({ behavior: 'smooth' });
         document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
         event.currentTarget.classList.add('active');
       }
     }
 
+    // Search
     function filterCards() {
       const input = document.getElementById('searchInput');
       const filter = input.value.toUpperCase();
-      const cardElements = document.getElementsByClassName('card');
-
-      for (let i = 0; i < cardElements.length; i++) {
-        const titleDiv = cardElements[i].getElementsByClassName('card-title')[0];
-        const txtValue = titleDiv.textContent || titleDiv.innerText;
-        
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          cardElements[i].style.display = "flex";
-        } else {
-          cardElements[i].style.display = "none";
-        }
+      const cards = document.getElementsByClassName('card');
+      for (let i = 0; i < cards.length; i++) {
+        const title = cards[i].getElementsByClassName('card-title')[0];
+        const txt = title.textContent || title.innerText;
+        cards[i].style.display = txt.toUpperCase().indexOf(filter) > -1 ? "flex" : "none";
       }
     }
   </script>
