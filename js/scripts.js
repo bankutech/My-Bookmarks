@@ -204,15 +204,18 @@ function initTilt() {
     const glareY = ((y / rect.height) * 100) - 50;
 
     requestAnimationFrame(() => {
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      card.style.setProperty('--rx', `${rotateX}deg`);
+      card.style.setProperty('--ry', `${rotateY}deg`);
       card.querySelector('.card-front').style.setProperty('--glare-x', `${glareX}%`);
       card.querySelector('.card-front').style.setProperty('--glare-y', `${glareY}%`);
     });
   };
 
   const onLeave = (card) => {
-    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+    card.style.setProperty('--rx', `0deg`);
+    card.style.setProperty('--ry', `0deg`);
   };
+
 
   document.addEventListener('mousemove', (e) => {
     const card = e.target.closest('.card-inner');
