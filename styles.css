@@ -257,33 +257,36 @@ canvas#particle-canvas {
 
 /* 3D Flip System */
 .card {
-  height: 200px; /* Slightly taller for flip space */
-  border-radius: var(--radius-lg);
-  perspective: 1000px;
+  height: 220px; /* Adjusted for flip */
+  perspective: 1500px;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
   overflow: visible !important;
-  animation: cardEntry 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
 }
+
 
 .card-inner {
   position: relative;
   width: 100%;
   height: 100%;
   text-align: left;
-  transition: transform 0.8s var(--spring-easing);
+  transition: transform 0.6s var(--spring-easing), box-shadow 0.3s ease;
   transform-style: preserve-3d;
   cursor: pointer;
-  transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--ty, 0px));
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+}
+
+.card:hover {
+  z-index: 10;
 }
 
 .card:hover .card-inner {
-  --flip: 180deg;
-  --ty: -10px;
-  transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(calc(var(--ry, 0deg) + var(--flip))) translateY(var(--ty));
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  transform: rotateX(var(--rx, 0deg)) rotateY(calc(var(--ry, 0deg) + 180deg));
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.25), 0 18px 36px -18px rgba(0, 0, 0, 0.3);
 }
+
+
 
 
 .card-front, .card-back {
