@@ -1,126 +1,150 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus Portal | Premium Dashboard</title>
-    
-    <!-- SEO & Metadata -->
-    <meta name="description" content="A premium, personalized bookmark manager and productivity portal.">
-    <meta name="theme-color" content="#020617">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="./styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus Portal — Personal Dashboard</title>
+  <meta name="description" content="Nexus Portal — a personal bookmark command center for academics, development, learning, and projects.">
+
+  <!-- Fonts: Inter for UI, JetBrains Mono for technical metadata -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Styles: design tokens first, then layout/components -->
+  <link rel="stylesheet" href="./css/design-system.css">
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
 
-    <!-- Custom Cursor -->
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
+  <!-- Custom cursor elements (desktop only; hidden via CSS on touch) -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-outline" aria-hidden="true"></div>
 
-    <!-- Noise Texture -->
-    <div class="noise-overlay"></div>
+  <!-- Quiet particle field behind the workspace -->
+  <div id="bg-canvas" aria-hidden="true">
+    <canvas id="particle-canvas"></canvas>
+  </div>
 
-    <!-- Dynamic Background -->
-    <div id="bg-canvas">
-        <canvas id="particle-canvas"></canvas>
+  <div class="app-wrapper">
+
+    <!-- ================= Sidebar ================= -->
+    <aside class="sidebar" aria-label="Category navigation">
+      <div class="brand-area">
+        <p class="brand-mark">NP</p>
+        <h1 class="brand-name">Nexus Portal</h1>
+        <p class="brand-sub">Personal workspace</p>
+      </div>
+
+      <nav class="nav-container">
+        <ul class="nav-list">
+          <!-- Rendered from CATEGORIES by js/scripts.js -->
+        </ul>
+      </nav>
+
+      <p class="sidebar-foot">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span id="bookmark-total">0 links</span>
+      </p>
+    </aside>
+
+    <!-- ================= Main ================= -->
+    <main class="main-content">
+
+      <header class="header">
+        <div class="header-top">
+          <div class="greeting-area">
+            <h2 class="greeting" id="greeting-text">Good evening, Sagnik</h2>
+            <p class="sub-greeting">Your workspace, organized.</p>
+          </div>
+          <div class="clock-container">
+            <div class="time" id="clock-time" aria-live="off">--:--</div>
+            <div class="date" id="clock-date">&nbsp;</div>
+          </div>
+        </div>
+
+        <div class="search-container">
+          <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+          <label class="sr-only" for="search-input">Search bookmarks</label>
+          <input type="search" id="search-input" class="search-input"
+                 placeholder="Search bookmarks…"
+                 autocomplete="off" spellcheck="false">
+          <button type="button" id="search-clear" class="search-clear" aria-label="Clear search" hidden>
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Categories are rendered here -->
+      <div id="categories-container"></div>
+
+      <!-- Empty search state -->
+      <div id="search-empty" class="empty-state" hidden>
+        <i class="fa-solid fa-magnifying-glass-minus" aria-hidden="true"></i>
+        <h3>No bookmarks found</h3>
+        <p>Try another search term.</p>
+      </div>
+
+      <footer class="app-footer">
+        <p>Nexus Portal · local-first, no accounts, no tracking.</p>
+      </footer>
+    </main>
+  </div>
+
+  <!-- FAB -->
+  <button type="button" id="add-bookmark-btn" class="fab" title="Add bookmark" aria-label="Add bookmark">
+    <i class="fa-solid fa-plus" aria-hidden="true"></i>
+  </button>
+
+  <!-- Add/Edit modal -->
+  <div id="bookmark-modal" class="modal-overlay" role="dialog" aria-modal="true"
+       aria-labelledby="modal-title" hidden>
+    <div class="modal-content">
+      <h3 id="modal-title">New bookmark</h3>
+      <form id="bookmark-form" novalidate>
+        <input type="hidden" id="edit-id" value="">
+
+        <div class="input-group">
+          <label for="bm-name">Name</label>
+          <input type="text" id="bm-name" name="name" placeholder="e.g. My Portfolio" required>
+        </div>
+
+        <div class="input-group">
+          <label for="bm-url">URL</label>
+          <input type="url" id="bm-url" name="url" placeholder="https://…" required>
+        </div>
+
+        <div class="input-group">
+          <label for="bm-description">Description <span class="label-hint">(optional)</span></label>
+          <input type="text" id="bm-description" name="description" placeholder="One line about this link">
+        </div>
+
+        <div class="input-group">
+          <label for="bm-category">Category</label>
+          <select id="bm-category" name="category">
+            <option value="academic">Academic Resources</option>
+            <option value="dev">Development &amp; Tools</option>
+            <option value="video">Video Learning</option>
+            <option value="platforms">Learning Platforms</option>
+            <option value="compilers">Online Compilers</option>
+            <option value="docs">Docs &amp; References</option>
+            <option value="utils">Utilities &amp; Others</option>
+            <option value="projects">My Active Projects</option>
+          </select>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="save-btn">Save bookmark</button>
+        </div>
+      </form>
     </div>
+  </div>
 
-
-    <div class="app-wrapper">
-        
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar glass">
-            <div class="brand-area">
-                <h1 class="brand-name">Nexus Portal</h1>
-            </div>
-            
-            <nav class="nav-container">
-                <ul class="nav-list">
-                    <!-- Dynamic Nav Items -->
-                </ul>
-            </nav>
-        </aside>
-
-        <!-- Main Content Area -->
-        <main class="main-content">
-            
-            <header class="header">
-                <div class="header-top">
-                    <div class="greeting-area">
-                        <h1 class="greeting" id="greeting-text">Good Evening</h1>
-                        <p class="sub-greeting">Your curated ecosystem for productivity and learning.</p>
-                    </div>
-                    <div id="digital-clock" class="clock-container glass">
-                        <div class="time" id="clock-time">00:00:00</div>
-                        <div class="date" id="clock-date">Monday, January 1</div>
-                    </div>
-                </div>
-                
-                <div class="search-container">
-                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="text" id="search-input" class="search-input glass" placeholder="Search resources or documents...">
-                </div>
-            </header>
-
-            <!-- Grid Content -->
-            <div id="categories-container">
-                <!-- Dynamic Sections -->
-            </div>
-
-            <!-- Add Bookmark FAB -->
-            <button id="add-bookmark-btn" class="fab glass" title="Add Bookmark">
-                <i class="fa-solid fa-plus"></i>
-            </button>
-
-            <div id="bookmark-modal" class="modal-overlay">
-                <div class="modal-content glass">
-                    <h3 id="modal-title">Add New Resource</h3>
-                    <input type="hidden" id="edit-index" value="-1">
-                    <div class="input-group">
-                        <label>Name</label>
-                        <input type="text" id="bm-name" placeholder="e.g. My Portfolio">
-                    </div>
-                    <div class="input-group">
-                        <label>URL</label>
-                        <input type="text" id="bm-url" placeholder="https://...">
-                    </div>
-                    <div class="input-group">
-                        <label>Category</label>
-                        <select id="bm-category">
-                            <option value="academic">Academic</option>
-                            <option value="dev">Development</option>
-                            <option value="video">Video Learning</option>
-                            <option value="platforms">Platforms</option>
-                            <option value="compilers">Compilers</option>
-                            <option value="docs">Docs</option>
-                            <option value="utils">Utilities</option>
-                            <option value="projects">My Active Projects</option>
-                        </select>
-                    </div>
-                    <div class="modal-actions">
-                        <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-                        <button class="btn btn-primary" id="save-btn" onclick="saveBookmark()">Save Bookmark</button>
-                    </div>
-                </div>
-            </div>
-
-            <footer style="margin-top: 4rem; padding-bottom: 2rem; color: var(--text-secondary); font-size: 0.9rem; text-align: center;">
-                <p>&copy; 2024 Nexus Portal. Designed for excellence.</p>
-            </footer>
-        </main>
-    </div>
-
-    <!-- Scripts -->
-    <script src="./js/data.js"></script>
-    <script src="./js/scripts.js"></script>
+  <script src="./js/data.js"></script>
+  <script src="./js/scripts.js"></script>
 </body>
 </html>
